@@ -1,0 +1,16 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm run build"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 10
+
+[service]
+name = "workflow-wizard"
+autoscaling = true
+minReplicas = 1
+maxReplicas = 2 

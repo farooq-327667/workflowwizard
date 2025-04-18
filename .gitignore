@@ -35,3 +35,6 @@ yarn-error.log*
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Specstory with sensitive information
+.specstory/
