@@ -2,22 +2,16 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Install dependencies first (better caching)
+# Copy package files
 COPY package*.json ./
-RUN npm install
 
-# Copy source code
-COPY tsconfig.json ./
-COPY server ./server
-COPY shared ./shared
-COPY client ./client
-COPY public ./public
-COPY tailwind.config.ts ./
-COPY postcss.config.js ./
-COPY vite.config.ts ./
+# Install dependencies
+RUN npm ci
 
-# Build TypeScript files and Vite frontend
-RUN npm install -g tsx
+# Copy source files
+COPY . .
+
+# Build the application
 RUN npm run build
 
 # Set environment variables
@@ -31,5 +25,5 @@ EXPOSE 10000
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:10000/ || exit 1
 
-# Start the server
-CMD ["node", "dist/index.js"] 
+# Start the application
+CMD ["npm", "start"] 
